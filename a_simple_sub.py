@@ -1,9 +1,9 @@
 # file: a_simple_sub.py
 
 from mqtt import MQTTClient
-import time
-import sys
 import pycom
+import sys
+import time
 
 import ufun
 
