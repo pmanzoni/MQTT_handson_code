@@ -12,9 +12,9 @@ You will learn how to:
 * use MQTT to feed data to cloud based IoT platforms
 
 ## Hardware
-:::info
-All devices in the lab share the same WLAN.
-:::
+
+> All devices in the lab must share the same WLAN.
+
 Each group will use a computer and a LoPy connected via USB through either an extension board or a PySense board. The various elements are supposed to be connected as indicated in the figure below.
 ![The connections](https://i.imgur.com/h5D9umj.jpg)
 
@@ -22,9 +22,7 @@ Each group will use a computer and a LoPy connected via USB through either an ex
 
 # Installing the MQTT broker
 
-:::warning
-You can install a broker either in you computer or, if you have one available, in a Raspberry Pi.
-:::
+> ***You can install a broker either in you computer or, if you have one available, in a Raspberry Pi.***
 
 There are various MQTT brokers that can be used. A quite complete list can be found here https://github.com/mqtt/mqtt.github.io/wiki/servers 
 The most widely used are: http://mosquitto.org/ and http://www.hivemq.com/
@@ -123,9 +121,9 @@ Open three terminals (e.g., `xterm`) in your computer, more or less like this:
 ![](https://i.imgur.com/KOcNjwz.jpg=400x400)
 The biggest terminal will be used to see the execution of the broker, the two smaller terminals will be used to execute the publisher and the subscriber, respectively.
 
-:::info
-If the broker is not running locally in your computer but for example in a Raspberry Pi, connect **each terminal to it** via `ssh -X`.
-:::
+
+> If the broker is not running locally in your computer but for example in a Raspberry Pi, connect **each terminal to it** via `ssh -X`.
+
 
 Now, run the broker with the `-v` flag in the bigger terminal.
 
@@ -203,9 +201,7 @@ we will always access them through port `1883`. Repeat some of the exercise abov
 
 # Block 2: MQTT clients with MicroPython and the LoPy
 
-:::info
-All the code that you will be using is available here https://github.com/pmanzoni/MQTT_handson_code
-:::
+> **All the code that you will be using is available here https://github.com/pmanzoni/MQTT_handson_code**
 
 
 ## First, some basic code
@@ -227,9 +223,9 @@ The LoPy devices require a MQTT library to write the client application. The cod
 ## Let's start: a simple subscriber
 
 The code below represent a simple subscriber. As a first step it connects to the WiFi network available in the lab.
-:::warning
-Remeber to properly assign a value to variables: `wifi_ssid`, `wifi_passwd`, and `dev_id`.
-:::
+
+> **Remeber to properly assign a value to variables: `wifi_ssid`, `wifi_passwd`, and `dev_id`.**
+
 > In this case we use the broker `test.mosquitto.org` but you can use any other accesible broker.
 
 ```python=
@@ -281,9 +277,8 @@ while 1:
 ## A simple publisher
 
 Let's produce some random data using the code below. As before, it first connects to the WiFi network available in the lab.
-:::warning
-Remeber to properly assign a value to variables: `wifi_ssid`, `wifi_passwd`, and `dev_id`.
-:::
+> **Remeber to properly assign a value to variables: `wifi_ssid`, `wifi_passwd`, and `dev_id`.**
+
 > In this case we use the broker `test.mosquitto.org` but you can use any other accesible broker.
 
 ```python=
