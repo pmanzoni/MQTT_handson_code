@@ -2,6 +2,7 @@
 
 from mqtt import MQTTClient
 import time
+import sys
 import pycom
 
 import ufun
@@ -24,10 +25,13 @@ ufun.connect_to_wifi(wifi_ssid, wifi_passwd)
 client = MQTTClient(dev_id, broker_addr, 1883)
 client.set_callback(on_message)
 
-if not client.connect():
-    print ("Connected to broker: " + broker_addr)
-else:
+print ("Connecting to broker: " + broker_addr)
+try:
+	client.connect()
+except OSError:
 	print ("Cannot connect to broker: " + broker_addr)
+	sys.exit()	
+print ("Connected to broker: " + broker_addr)
 
 client.subscribe('lopy/lights')
 
