@@ -24,9 +24,6 @@ Each group will use a computer and a LoPy connected via USB through either an ex
 
 > ***You can install a broker either in you computer or, if you have one available, in a Raspberry Pi.***
 
-There are various MQTT brokers that can be used. A quite complete list can be found here https://github.com/mqtt/mqtt.github.io/wiki/servers 
-The most widely used are: http://mosquitto.org/ and http://www.hivemq.com/
-
 ### Installation steps:
 For our experiments we will use [**Mosquitto**](https://mosquitto.org/), which is part of the [Eclipse Foundation](http://www.eclipse.org/) and is an [iot.eclipse.org](https://projects.eclipse.org/projects/technology.mosquitto) project. The manual page can be found here [`man page`](https://mosquitto.org/man/mosquitto-8.html).
 
@@ -342,34 +339,25 @@ sudo pip install paho-mqtt
 ## The first
 Let's control remotely the color of the LoPy's LED using MQTT.
 
-![Test 1 scheme](https://i.imgur.com/nvfKvg2.png)
+![block 3, first exercise](https://i.imgur.com/3pnXsWm.jpg)
 
-* block “p1”: 
-    * Each LoPy will be connected to its own local broker in your computer. The LoPy should change the color of its LED according to the "instructions" it receives using MQTT. 
-	* Take advantage of the functions in library `ufun.py` to control the LED.
+**Code “p1”.** This code runs in the LoPy and has to:
+* Connect each group's LoPy to its own 'private' broker; 'private' means that each group should use a different broker, basically the one you installed at the beginning of this Lab session.
+* Have the LoPy to change the color of its LED according to the "instructions" it receives using MQTT. Use the functions in library `ufun.py` to control the LED.
 
-* block “p2”:
-	* Contains the program, to be executed on your computer, that reads 2 parameters: the broker address and the LED color you want that specific LoPy to show. Try to control the LoPy of another group.
+**Code “p2”.** This code runs in a computer
+ and has to:
+* Connect to the LoPy 'private' broker. 
+* Publish the "instructions", using MQTT, to 
+ inform the LoPy to which color has to set its LED:
+    1) Try first simply using: `mosquitto_pub`
+    2) Then, write a program that reads 2 parameters: the broker address and the LED color you want that specific LoPy to show. 
+    3) Finally, try to control the LoPy of another group.
 
 ## The second
-Now repeat the previous exercise but using a unique ("common") broker for the whole lab. It could either be one running in a computer in the lab or remote (e.g., test.mosquitto.org). How will you identify a specific LoPy now? 
+Now repeat the previous exercise but using a unique ("common") broker for the whole lab. It could either be one running in a computer in the lab or a remote one (e.g., test.mosquitto.org). How will you identify a specific LoPy now? 
 
-![Test 2 scheme](https://i.imgur.com/1Vo3kwC.jpg)
-
-## The third
-
-For this exercise again you will be using a unique ("common") broker for the whole lab. It could either be one running in a computer in the lab or remote (e.g., test.mosquitto.org).
-
-* block “p1”: 
-    * Reads the values of a specific sensor in the PySense and publish it periodically to the "common" broker
-    * To get data from the PySense's sensors, you can extend the code of the function `get_data_from_sensor` we used before in the simple publisher example by using the library `pysense_s` (its  code is available in the [above described repository.](#mqtt-clients-with-micropython-and-the-lopy)) 
-
-
-* block “p2”:
-    * Contains the program, to be executed on the compuer, that subscribes to all the values published in the "common" broker by the various groups in the lab, compute the average and visualize the value
-    * remind that code "p2" will use the Paho library version of MQTT, while the code "p1" will have to use the micropython version.
-    * you'll have to agree beforehand on the topic values
-
+![block 3, second exercise](https://i.imgur.com/V2q18hb.jpg)
 
 
 ---
