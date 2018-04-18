@@ -341,12 +341,11 @@ Let's control remotely the color of the LoPy's LED using MQTT.
 
 ![block 3, first exercise](https://i.imgur.com/3pnXsWm.jpg)
 
-**Code “p1”.** This code runs in the LoPy and has to:
+**Code “p1”.** This code runs in the LoPy, so must use MicroPython, and has to:
 * Connect each group's LoPy to its own 'private' broker; 'private' means that each group should use a different broker, basically the one you installed at the beginning of this Lab session.
 * Have the LoPy to change the color of its LED according to the "instructions" it receives using MQTT. Use the functions in library `ufun.py` to control the LED.
 
-**Code “p2”.** This code runs in a computer
- and has to:
+**Code “p2”.** This code runs in a computer, so must use Python, and has to:
 * Connect to the LoPy 'private' broker. 
 * Publish the "instructions", using MQTT, to 
  inform the LoPy to which color has to set its LED:
