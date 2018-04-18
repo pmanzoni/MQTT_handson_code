@@ -418,7 +418,7 @@ Consider that:
 
 #### Second step: use a Python program.
 
-Using as a reference the code in file `paho-code/example4.py` in the GitHub reposity, create a periodic publisher that sends the generated to your ThingSpeak channel.
+Using as a reference the code in file `paho-code/example4.py` in the GitHub reposity, create a periodic publisher that sends the generated number to your ThingSpeak channel.
 
 ## Using Ubidots
 
