@@ -372,20 +372,33 @@ ThingSpeak is an IoT analytics platform service that allows you to aggregate, vi
 
 ### Creating a *channel*
 You first have to sign in. Go to https://thingspeak.com/users/sign_up and create your own account. Then you can create your first channel. Like for example:
-![](https://i.imgur.com/nN8iyWl.png)
 
-In the "Private View" section you can get an overview of your data:
-![](https://i.imgur.com/DzkbXVF.png)
+![](https://i.imgur.com/siPq11m.png)
 
-Take a look to the other sections. To connect to your channel, you need the data in the API Keys section. In my case it says:
-![](https://i.imgur.com/BlfIqlK.png)
 
-Now, ThingSpeak offers either a REST and a MQTT API to work with channels. See here: https://es.mathworks.com/help/thingspeak/channels-and-charts-api.html
+When a channel is created is set as _private_. Set it to public as indicated in the figure below:
+
+![](https://i.imgur.com/Dforjus.png)
+
+Now you can take a look at it, as shown in the figure below:
+
+![](https://i.imgur.com/CYPVnr4.png)
+
+
+You need the data in the API Keys section to connect to your channel. In my case it says:
+
+![](https://i.imgur.com/YZt82yB.png)
+
 
 ### Exercise
-Let's publish to your channel field feed some random value using `mosquitto_pub`.
+ThingSpeak offers either a REST and a MQTT API to work with channels. See here: https://es.mathworks.com/help/thingspeak/channels-and-charts-api.html
 
-![](https://i.imgur.com/f4vfCTZ.png)
+For this exercise you will need the documention specific to **publish a message to update a single channel field** using MQTT. It is here: https://es.mathworks.com/help/thingspeak/publishtoachannelfieldfeed.html
+
+
+#### First step: use `mosquitto_pub`.
+
+Use `mosquitto_pub` to send a value to your channel:
 
 Consider that:
 1. the hostname of the ThinSpeak MQTT service is "mqtt.thingspeak.com"
@@ -397,9 +410,15 @@ Consider that:
     * set the PUBLISH messages to a QoS value of 0.
     * set the connection RETAIN flag to 0 (False).
     * set the connection CleanSession flag to 1 (True).
-4.  more infos here
-https://es.mathworks.com/help/thingspeak/publishtoachannelfieldfeed.html 
+4.  common errors when writing the topic:
+    * remember to add the string 'fields'
+ channels/<channelID>/publish/**fields**/field<fieldnumber>/<apikey>
+    * `field<fieldnumber>` means, for example, **field1**
+    * use the **Write** API Key
 
+#### Second step: use a Python program.
+
+Using as a reference the code in file `paho-code/example4.py` in the GitHub reposity, create a periodic publisher that sends the generated to your ThingSpeak channel.
 
 ## Using Ubidots
 
