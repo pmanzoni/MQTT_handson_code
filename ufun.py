@@ -28,28 +28,29 @@ def flash_led_to(color=GREEN, t1=1):
     set_led_to(OFF)
 
 def connect_to_wifi(wifi_ssid, wifi_passwd):
-	wlan = WLAN(mode=WLAN.STA)
+    wlan = WLAN(mode=WLAN.STA)
 
-	for ltry in range(3):
-	    print("Connecting to: "+wifi_ssid+". Try "+str(ltry))
-	    nets = wlan.scan()
-	    for net in nets:
-	        if net.ssid == wifi_ssid:
-	            print('Network '+wifi_ssid+' found!')
-	            wlan.connect(net.ssid, auth=(net.sec, wifi_passwd), timeout=5000)
-	            while not wlan.isconnected():
-	                machine.idle() # save power while waiting
-	            print('WLAN connection succeeded!')
-	            flash_led_to(GREEN, 1)
-	            print (wlan.ifconfig())
-	            break
-	    if wlan.isconnected():
-	        break
-	    else:
-	        print('Cannot find network '+wifi_ssid)
-	        flash_led_to(RED, 1)
-	
-	if not wlan.isconnected():
-	    print('Cannot connect to network '+wifi_ssid+'. Quitting!!!')
-	    sys.exit(1)
+    for ltry in range(3):
+        print("Connecting to: "+wifi_ssid+". Try "+str(ltry))
+        nets = wlan.scan()
+        for net in nets:
+            if net.ssid == wifi_ssid:
+                print('Network '+wifi_ssid+' found!')
+                wlan.connect(net.ssid, auth=(net.sec, wifi_passwd), timeout=5000)
+                while not wlan.isconnected():
+                    machine.idle() # save power while waiting
+                break
+        if wlan.isconnected():
+            break
+        else:
+            print('Cannot find network '+wifi_ssid)
+            flash_led_to(RED, 1)
+    
+    if not wlan.isconnected():
+        print('Cannot connect to network '+wifi_ssid+'. Quitting!!!')
+        sys.exit(1)
+    else:
+        print('WLAN connection succeeded!')
+        flash_led_to(GREEN, 1)
+        print (wlan.ifconfig())
 
