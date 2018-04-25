@@ -136,7 +136,7 @@ the broker terminal should show something like:
 
 the broker registered the subscription request of the new client. Now in the other small terminal, execute:
 ```shell
-mosquitto_pub -t i/LOVE/Python -m "Very well!"
+mosquitto_pub -t i/LOVE/Python -m "Very well."
 ```
 in the broker terminal, after the new registration messages, you'll also see something like:
 
@@ -146,15 +146,24 @@ meaning that the broker received the published message and that it forwarded it 
 
 Try now: 
 ```shell
-mosquitto_pub -t i/love/python -m "Not so well!"
+mosquitto_pub -t i/love/python -m "Not so well"
 ```
 **What happened? Are topics case-sensitive?**
 
-Another useful option of `mosquitto_pub` is the following:
+Another useful option of `mosquitto_pub` is `-l`. Execute the following command:
 ```shell
 mosquitto_pub -t i/LOVE/Python -l
 ```
-it sends messages read from stdin, splitting separate lines into separate messages. Note that blank lines won't be sent. Give it a try ... you basically obtained a MQTT based **"unidirectional chat"** channel... 
+and start typing some line of text. It sends messages read from stdin, splitting separate lines into separate messages. Note that blank lines won't be sent. You basically obtained a MQTT based **"unidirectional chat"** channel... 
+
+### ... about Keepalive
+By the way, if you kept the broker running with the `-v` option until now in a separate window, you can see various lines like:
+```
+1524673958: Sending PINGRESP to mosqpub|3592-iMac-de-Pi
+1524673985: Received PINGREQ from mosqsub|3587-iMac-de-Pi
+```
+this simply shows that the broker and the client are interchanging these special messages to know whether they are still alive.
+
 
 ### QoS (Quality of Service):
 Adding the `-q` option, for example to the `mosquitto_pub` you'll see the extra message that are now interchanged with the broker. For example, doing:
@@ -172,13 +181,13 @@ compare this sequence of messages with the one obtanined with `-q 0` or with `-q
 Normally if a publisher publishes a message to a topic, and *no one is subscribed* to that topic the message is simply discarded by the broker. If you want your broker to remember the last published message, you'll have to use the ```retain``` option. Only one message is retained per topic. The next message published on that topic replaces the retained message for that topic. 
 > To set the retain message flag you have to add `-r` using the Mosquitto clients.
 
-So try the following cases, but  **remember now to always execute the subscriber after** the publisher:
+So try the following cases, but  **remember now to always execute, for each test, the subscriber after** the publisher:
 1. Publish a message with the retain message flag not set, like we did before. What happens?
 1. Publish a message with the retain message flag set (`-r`). What happens?
 1. Publish several (different) messages with the retain message flag set before starting the subscriber. What happens?
 2. Publish a message with the retain message flag **not** set again. What happens?
 
-Finaly, how do I remove or delete a retained message? You have to publish a blank message with the retain flag set to true which clears the retained message. Try it.
+Finaly, how do I remove or delete a retained message? You have to publish a blank message(`-m ""`) with the retain flag set to true which clears the retained message. Try it.
 
 ### Public brokers
 There are also various public brokers in Internet, also called `sandboxes`. For example:
@@ -190,7 +199,9 @@ There are also various public brokers in Internet, also called `sandboxes`. For 
     * more infos at: http://www.hivemq.com/try-out/
         * http://www.mqtt-dashboard.com/
         
-we will always access them through port `1883`. Repeat some of the exercise above with one of these sandboxes (remember to use the `-h` option). Any difference?
+we will always access them through port `1883`. 
+
+**Repeat some of the exercise above with one of  these sandboxes (remember to use the `-h` option). Any difference?**
 
 
 
