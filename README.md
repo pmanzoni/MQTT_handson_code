@@ -8,3 +8,7 @@ The lab instructions are available here: [docs/An hands-on introduction to MQTT.
 and here: https://hackmd.io/s/BJ9hwSfhG
 
 The slides used in the course are available here: [docs/MQTT_ICTPmay18_v2.pdf](https://github.com/pmanzoni/MQTT_handson_code/blob/master/docs/MQTT_ICTPmay18_v2.pdf)
+
+---
+
+PS. If you are not keen on using Atom or any other integrated environment to program PyCom devices, you can take a look at the instructions here: http://bit.ly/lopy-setup
