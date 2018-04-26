@@ -3,12 +3,12 @@
 This lab aims to offer you an hands-on experience with MQTT. You will perform experiments that will allow you to learn how to "publish" and "subscribe" to data. To this end you will use:
 1. your own broker
 1. a "sandbox" external broker
-1. the **ThingSpeak** platform
+1. the **ThingSpeak** and **Ubidots** platform
 
 You will learn how to:
 * install and configure an MQTT broker
-* interchange data using MQTT
-* use MQTT to feed data to a cloud based IoT platforms
+* interchange data using MQTT clients based on Python and MicroPython for the LoPy
+* use MQTT to feed data to cloud based IoT platforms
 
 ## Hardware
 
@@ -19,7 +19,7 @@ Each group will use a computer and a LoPy connected via USB through either an ex
 
 
 
-# Installing the MQTT broker
+# Block 0: Installing the MQTT broker
 
 > ***You can install a broker either in you computer or, if you have one available, in a Raspberry Pi.***
 
@@ -175,7 +175,7 @@ you'll get:
 
 ![](https://i.imgur.com/wLqMrev.png)
 
-compare this sequence of messages with the one obtanined with `-q 0` or with `-q 1`.
+compare this sequence of messages with the one obtained with `-q 0` or with `-q 1`.
 
 ### Retained messages:
 Normally if a publisher publishes a message to a topic, and *no one is subscribed* to that topic the message is simply discarded by the broker. If you want your broker to remember the last published message, you'll have to use the ```retain``` option. Only one message is retained per topic. The next message published on that topic replaces the retained message for that topic. 
@@ -187,7 +187,7 @@ So try the following cases, but  **remember now to always execute, for each test
 1. Publish several (different) messages with the retain message flag set before starting the subscriber. What happens?
 2. Publish a message with the retain message flag **not** set again. What happens?
 
-Finaly, how do I remove or delete a retained message? You have to publish a blank message(`-m ""`) with the retain flag set to true which clears the retained message. Try it.
+Finally, how do I remove or delete a retained message? You have to publish a blank message(`-m ""`) with the retain flag set to true which clears the retained message. Try it.
 
 ### Public brokers
 There are also various public brokers in Internet, also called `sandboxes`. For example:
@@ -232,9 +232,9 @@ The LoPy devices require a MQTT library to write the client application. The cod
 
 The code below represent a simple subscriber. As a first step it connects to the WiFi network available in the lab.
 
-> **Remeber to properly assign a value to variables: `wifi_ssid`, `wifi_passwd`, and to personalize the value of `dev_id`.** `dev_id` allows to identify your specific device
+> **Remember to properly assign a value to variables: `wifi_ssid`, `wifi_passwd`, and to personalize the value of `dev_id`.** `dev_id` allows to identify your specific device
 
-> In this case we use the broker `test.mosquitto.org` but you can use any other accesible broker.
+> In this case we use the broker `test.mosquitto.org` but you can use any other accessible broker.
 
 ```python=
 # file: a_simple_sub.py
@@ -286,9 +286,9 @@ while 1:
 ## A simple publisher
 
 Let's produce some random data using the code below. As before, it first connects to the WiFi network available in the lab.
-> **Remeber to properly assign a value to variables: `wifi_ssid`, `wifi_passwd`, and `dev_id`.**
+> **Remember to properly assign a value to variables: `wifi_ssid`, `wifi_passwd`, and `dev_id`.**
 
-> In this case we use the broker `test.mosquitto.org` but you can use any other accesible broker.
+> In this case we use the broker `test.mosquitto.org` but you can use any other accessible broker.
 
 ```python=
 # file: a_simple_pub.py
@@ -360,8 +360,7 @@ Let's control remotely the color of the LoPy's LED using MQTT.
 
 **Code “p2”.** This code runs in a computer, so you must use Python, and has to:
 * Connect to the LoPy 'private' broker. 
-* Publish the "instructions", using MQTT, to 
- inform the LoPy to which color has to set its LED:
+* Publish the "instructions", using MQTT, to inform the LoPy to which color has to set its LED:
     1) Try first simply using: `mosquitto_pub`
     2) Then, write a program that reads 2 parameters: the broker address and the LED color you want that specific LoPy to show. 
     3) Finally, try to control the LoPy of another group.
@@ -376,7 +375,7 @@ Now repeat the previous exercise but using a unique ("common") broker for the wh
 
 # Block 4: Sending data to a cloud based platform
 
-In this block you will experiment about how MQTT can be used to send data to a cloud based platform. This procedure allows you to store your data in a cloud based repository and to analyse your data with software tools made available by the used platform.
+In this block you will experiment about how MQTT can be used to send data to a cloud based platform. This procedure allows you to store your data in a cloud based repository and to analyze your data with software tools made available by the used platform.
 
 ## Using ThingSpeak
 
@@ -385,7 +384,7 @@ ThingSpeak is an IoT analytics platform service that allows you to aggregate, vi
 ### Creating a *channel*
 You first have to sign in. Go to https://thingspeak.com/users/sign_up and create your own account. Then you can create your first channel. Like for example:
 
-![](https://i.imgur.com/siPq11m.png)
+![](https://i.imgur.com/siPq11m.png =300x400)
 
 
 When a channel is created it is set as _private_. Set it to **public** as indicated in the figure below:
@@ -405,10 +404,10 @@ You need the data in the API Keys section to connect to your channel.
 ### Exercise
 ThingSpeak offers either a REST and a MQTT API to work with channels. See here: https://es.mathworks.com/help/thingspeak/channels-and-charts-api.html
 
-For this exercise you will need the documention specific to **publish a message to update a single channel field** using MQTT. It is here: https://es.mathworks.com/help/thingspeak/publishtoachannelfieldfeed.html
+For this exercise you will need the documentation specific to **publish a message to update a single channel field** using MQTT. It is here: https://es.mathworks.com/help/thingspeak/publishtoachannelfieldfeed.html
 
 
-#### First step: use `mosquitto_pub`.
+#### First step: use `mosquitto_pub`
 
 Use `mosquitto_pub` to send a value to your channel:
 
@@ -422,7 +421,7 @@ Consider that:
     * set the PUBLISH messages to a QoS value of 0.
     * set the connection RETAIN flag to 0 (False).
     * set the connection CleanSession flag to 1 (True).
-4.  common errors when writing the topic:
+* Be careful!!!:
     * remember to add the string 'fields'
  channels/<channelID>/publish/**fields**/field<fieldnumber>/<apikey>
     * `field<fieldnumber>` means, for example, **field1**
@@ -430,4 +429,65 @@ Consider that:
 
 #### Second step: use a Python program.
 
-Using as a reference the code in file `paho-code/example4.py` in the GitHub reposity, create a periodic publisher that sends the generated number to your ThingSpeak channel.
+Using as a reference the code in file `paho-code/example4.py` in the GitHub repository, create a periodic publisher that sends the generated number to your ThingSpeak channel.
+
+#### Third step: use a MicroPython program.
+
+Using as a reference the code of the previous step, create a MicroPython periodic publisher that sends the generated number from your LoPy to your ThingSpeak channel.
+
+
+## Using Ubidots
+
+Repeat the previous exercise with the Ubidots platform. You will have to first create your free account here: https://app.ubidots.com/accounts/signup/ Then create a device:
+
+![](https://i.imgur.com/CkHHqh3.png)
+
+and then create a "Default" type variable:
+
+![](https://i.imgur.com/ITZeABD.png)
+
+Now we will send data to our device using MQTT. Take a look first to the MQTT API Reference: https://ubidots.com/docs/api/mqtt.html
+
+#### First step: use `mosquitto_pub`
+
+Use `mosquitto_pub` to send a value to your device:
+
+Consider that:
+1. the hostname for educational users is "things.ubidots.com". To interact with it, you will need a TOKEN. The easiest way to get yours is clicking on “API Credentials” under your profile tab:
+
+![](https://i.imgur.com/QMXvJL0.png)
+
+In my case I have:
+
+![](https://i.imgur.com/72pXlm0.png)
+
+To connect to the MQTT broker you'll have to use your Ubidots TOKEN as the MQTT username, and leave the password field empty.
+
+2. the topic you have to use is **`/v1.6/devices/{LABEL_DEVICE}/{LABEL_VARIABLE}`** where you have to replace the fields `{LABEL_DEVICE}` (e.g., VLCtesting) and `{LABEL_VARIABLE}`  (e.g., my_value).
+
+4. The data must be represented using JSON. The simplest format is: `{"value":10}` 
+
+So, summing up, to send value 25 to variable `my_value` of device VLCtesting 
+
+```
+mosquitto_pub -h things.ubidots.com -u A1E-2DvBg......TsjaOcG4SRuTkgH -P '' 
+              -t /v1.6/devices/vlctesting/my_value -m '{"value":25}'
+```
+
+> Be careful on the use of `'`and `"` and on the actual identifiers of the device and the variable (e.g., uppercase, lowercase, ...)
+![](https://i.imgur.com/EEPGJaR.png =200x200)
+
+
+You'll get:
+![](https://i.imgur.com/xNFjzBv.png =400x300)
+
+So try to repeat all the previous steps with your own device and variable.
+
+#### Second step: use a Python program.
+
+As before, and using as a reference the code in file `paho-code/example5-prod.py` in the GitHub repository, create a periodic publisher that sends the generated number to your Ubidots device.
+
+#### Third step: use a MicroPython program.
+
+Using as a reference the code of the previous step, create a MicroPython periodic publisher that sends the generated number from your LoPy to your Ubidots device.
+
