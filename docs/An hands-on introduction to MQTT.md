@@ -14,16 +14,11 @@ You will learn how to:
 
 > All devices in the lab must share the same WLAN.
 
-Each group will use a computer and a LoPy connected via USB through either an extension board or a PySense board. The various elements are supposed to be connected as indicated in the figure below.
-![The connections](https://i.imgur.com/h5D9umj.jpg)
+Each group will use a computer and a LoPy connected via USB through either an extension board or a PySense board. 
 
 
+# Block 0: Installing the MQTT broker on your computer
 
-# Block 0: Installing the MQTT broker
-
-> ***You can install a broker either in you computer or, if you have one available, in a Raspberry Pi.***
-
-### Installation steps:
 For our experiments we will use [**Mosquitto**](https://mosquitto.org/), which is part of the [Eclipse Foundation](http://www.eclipse.org/) and is an [iot.eclipse.org](https://projects.eclipse.org/projects/technology.mosquitto) project. The manual page can be found here [`man page`](https://mosquitto.org/man/mosquitto-8.html).
 
 Detailed installation indications can be found here: https://mosquitto.org/download/ 
@@ -117,10 +112,6 @@ More information can be found:
 Open three terminals (e.g., `xterm`) in your computer, more or less like this:
 ![](https://i.imgur.com/KOcNjwz.jpg=400x400)
 The biggest terminal on the right will be used to see the execution of the broker, the two smaller terminals will be used to execute the publisher and the subscriber, respectively.
-
-
-> If the broker is not running locally in your computer but for example in a Raspberry Pi, connect **each terminal to it** via `ssh -X`.
-
 
 Now, run the broker with the `-v` flag in the biggest terminal.
 
@@ -352,10 +343,11 @@ sudo pip install paho-mqtt
 ## The first
 Let's control remotely the color of the LoPy's LED using MQTT.
 
-![block 3, first exercise](https://i.imgur.com/3pnXsWm.jpg)
+![block 3, first exercise](https://i.imgur.com/Y7TDE2U.png)
+
 
 **Code “p1”.** This code runs in the LoPy, so you must use MicroPython, and has to:
-* Connect each group's LoPy to its own 'private' broker; 'private' means that each group should use a different broker, basically the one you installed at the beginning of this Lab session.
+* Connect each LoPy to its own 'private' broker; 'private' means that each user should use a different broker, basically the one you installed at the beginning of this Lab session.
 * Have the LoPy to change the color of its LED according to the "instructions" it receives using MQTT. Use the functions in library `ufun.py` to control the LED.
 
 **Code “p2”.** This code runs in a computer, so you must use Python, and has to:
